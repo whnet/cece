@@ -1,0 +1,59 @@
+.list-box-content{
+  padding: 0.5rem 0;
+  margin: 0 0.75rem;
+  border-top: 1px solid #CCCCCC;
+}
+.ui-cells a:first-of-type .list-box-content{
+  border-top: none;
+}
+.right-icon{
+  text-align: right;
+  color: #666666;
+  margin-left: 0.5rem;
+}
+.left-content{
+  font-size: 0.75rem;
+  color: #3A3A3A;
+}
+.member-img{
+  display: inline-block;
+  width: 20%;
+}
+.member-img img{
+  width: 100%;
+  border-radius: 50%;
+}
+/*淇敼*/
+.chat-photo{
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  -webkit-flex-shrink: 0;
+  display: inline-block;
+}
+/*閫€鍑虹櫥褰�*/
+.sign_out{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: 0 auto;
+  height: 3rem;
+}
+.sign_out a{
+  background: #6db57b;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  height: 2rem;
+  color: #fff;
+  line-height: 2rem;
+  border-radius: 5px;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+.icon-youjiantou{
+  color: #999 !important;
+}

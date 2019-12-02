@@ -1,0 +1,127 @@
+html {
+  font-size: 20px;
+}
+@media only screen and (min-width: 400px) {
+  html {
+    font-size: 21.33333333px !important;
+  }
+}
+@media only screen and (min-width: 414px) {
+  html {
+    font-size: 22.08px !important;
+  }
+}
+@media only screen and (min-width: 480px) {
+  html {
+    font-size: 25.6px !important;
+  }
+}
+li {
+  list-style-type: none;
+}
+body{
+  margin:0 auto;
+  max-width: 640px;
+  min-width: 320px;
+  font-size: 0.7rem;
+  line-height: 22px;
+  font-family: "Microsoft YaHei", "微软雅黑", Helvetica, "黑体", Arial, Tahoma;
+}
+.mui-bar-tab{
+  margin:0 auto;
+  max-width: 640px;
+  min-width: 320px;
+  border: none;
+/*这样任何触摸事件都不会产生默认行为，但是 touch 事件照样触发。*/
+  touch-action: none;
+}
+.mui-bar{
+  background-color: #fff;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before{
+  color: #f3c583;
+}
+.mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before{
+  color: #f3c583;
+}
+.service{
+  color: #A3A3A3;
+  font-size: .6rem;
+}
+.servicephone{
+  width:40% ;
+  display: inline-block;
+  position: absolute;
+  left:50px;
+  bottom: 8px;
+  text-align: left;
+}
+.servicename{
+  width: 40%;
+  display: inline-block;
+  position: absolute;
+  right: 25px;
+  bottom: 8px;
+  text-align: right;
+}
+.service span{
+  color: red;
+  font-size: 0.85rem;
+  line-height: 25px;
+}
+.service .pingfen{
+  font-size: 0.55rem;
+  color: #242424;
+}
+
+.mui-card-header.mui-card-media > img{
+  border-radius: 50%;
+}
+.servicehead{
+  margin-top:-5px;
+}
+.clear{
+  height: 100%;
+  margin-bottom:40px;
+}
+.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item{
+  border: none;
+}
+.mui-popover{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translateX(-50%) translateY(-50%);
+  padding:20px 10px 10px 20px;
+}
+.mui-icon .mui-badge{
+  line-height: 1;
+}
+.service-start{
+  width: 40%;
+  display: inline-block;
+  position: absolute;
+  right: 25px;
+  bottom: 10px;
+  text-align: right;
+}
+.mui-table-view:before{
+  height:0;
+}
+.mui-table-view:after{
+  height:0;
+}
+.mui-bar-tab .mui-tab-item .mui-icon{
+  top: 3px;
+  width: 35px;
+  height: 24px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.mui-bar-tab{
+  background-color: #fcfcfc;
+  backface-visibility: hidden;
+}
