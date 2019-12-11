@@ -35,6 +35,7 @@
     </div>
     <divider :class="{ active: isActive }">我是有底线的</divider>
     <common-footer></common-footer>
+    <shareall></shareall>
   </div>
 </template>
 

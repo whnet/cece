@@ -116,6 +116,7 @@
         <input class="btn sub" type="button" name="" id="" v-else-if="status == 1" @click="submit()" value="重新认证"  :disabled="isDisable"/>
         <input class="btn sub" type="button" name="" id=""v-else @click="submit()" value="认证"  :disabled="isDisable"/>
       </div>
+      <sharenone></sharenone>
     </div>
 </template>
 

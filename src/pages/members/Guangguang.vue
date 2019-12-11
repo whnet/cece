@@ -216,6 +216,7 @@
     <div v-transfer-dom>
       <loading :show="show" text="正在上传"></loading>
     </div>
+    <shareall></shareall>
   </div>
 </template>
 
@@ -289,7 +290,9 @@
       if(cookie.getCookie('mid') == null){
         this.getWechatAuth()
       }
-      this.Service()
+      if(cookie.getCookie('token')) {
+        this.Service()
+      }
     },
     mounted () {
       if(cookie.getCookie('mid') == null){

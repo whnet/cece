@@ -22,6 +22,7 @@
 
 <script>
 import { Swiper, SwiperItem, Grid, GridItem } from 'vux'
+import cookie from '../../static/js/cookie'
 export default {
   name: 'gridSwiper',
   components: {
@@ -37,7 +38,9 @@ export default {
     }
   },
   mounted () {
-    this.grids()
+    if(cookie.getCookie('token')) {
+      this.grids()
+    }
   },
   methods: {
     grids () {

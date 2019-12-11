@@ -57,6 +57,7 @@
   </ul>
 
   <common-footer></common-footer>
+  <shareall></shareall>
   <div v-transfer-dom>
     <loading :show="loading" :text="text"></loading>
   </div>
@@ -65,6 +66,7 @@
 
 <script>
 import { Search, Scroller, XHeader, Divider, Loading, TransferDomDirective as TransferDom } from 'vux'
+import cookie from '../../static/js/cookie'
 
 export default {
   directives: {
@@ -96,7 +98,9 @@ export default {
     }
   },
   mounted () {
-    this.getCat()
+    if(cookie.getCookie('token')) {
+      this.getCat()
+    }
     let search = document.getElementById('search').offsetHeight
     let footer = document.getElementById('footer').offsetHeight
 
@@ -110,7 +114,9 @@ export default {
       })()
     }
     // getTeacher
-    this.getTeacher();
+    if(cookie.getCookie('token')) {
+      this.getTeacher();
+    }
   },
   methods: {
     submit(){

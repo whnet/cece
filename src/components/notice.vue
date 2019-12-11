@@ -14,6 +14,7 @@
 
 <script>
 import { Group, GroupTitle, Marquee, MarqueeItem, Cell } from 'vux'
+import cookie from '../../static/js/cookie'
 export default {
   components: {
     GroupTitle,
@@ -28,7 +29,9 @@ export default {
     }
   },
   mounted () {
-    this.getNotice({params: {'type': 2}})
+    if(cookie.getCookie('token')) {
+      this.getNotice({params: {'type': 2}})
+    }
   },
   methods: {
     getNotice (params) {

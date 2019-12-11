@@ -44,6 +44,7 @@
 
 <script>
 import { Divider } from 'vux'
+import cookie from '../../static/js/cookie'
 export default {
   components: {
     Divider,
@@ -56,9 +57,11 @@ export default {
     }
   },
   mounted () {
-    this.teacherRank({params: {'ordering': '-haopinglv'}})
-    this.teacherRec({params: {'ordering': '-rec'}})
-    this.teacherNew({params: {'ordering': '-updated'}})
+    if(cookie.getCookie('token')) {
+      this.teacherRank({params: {'ordering': '-haopinglv'}})
+      this.teacherRec({params: {'m': 'rec'}})
+      this.teacherNew({params: {'ordering': '-updated'}})
+    }
   },
   methods: {
     teacherRank (params) {

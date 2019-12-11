@@ -72,12 +72,12 @@ const register = (params) => { return ajax.post(`/register/`, params) }
 const login = (params) => { return ajax.post(`/login/`, params) }
 
 // 想查询指定用户的ID 更新用户信息
-const userInfo = (id) => { return ajax.get(`/users/${id}/`) }
+const userInfo = (id) => { return ajax.get(`/users/${id}/`) } // 这里只获取 ('id', 'avatar', 'nickname', 'openid', 'type', 'teacher')
 const updateUserInfo = (id, params) => { return ajax.put(`/users/${id}/`, params) }
 const ziliao = (id) =>{return ajax.get(`/ziliao/${id}`)} //单独写一个获取个人信息
 
-const wechatAuth = () => { return ajax.get(`/auth/`) }
-const wechatInfo = (params) => { return ajax.get(`/info/`, { params: params }) }
+const wechatAuth = () => { return ajax.get(`/auth/`) } //去换取code
+const wechatInfo = (params) => { return ajax.get(`/info/`, { params: params }) } // 微信授权时得到用户信息
 
 // 聊天内容的获取
 const getChat = (id) => { return ajax.get(`/chat/${id}` + '/') }

@@ -1,7 +1,8 @@
 <template>
 <div class="mui-content" v-wechat-title="this.detailtitle">
-  <div class="mui-card" v-if="info">
+  <div class="mui-card" v-if="info.id">
     <div class="mui-card-content">
+      <!--注意host是否配置成了生产环境-->
       <img :src="host + info.big" class="product_cover">
     </div>
     <h2>{{ info.title }}</h2>
@@ -11,18 +12,8 @@
       <span>{{ ganxie }}次感谢</span>
     </div>
   </div>
-  <div class="mui-card" v-else>
-    <div class="mui-card-content">
-      <div class="product_cover"></div>
-    </div>
-    <div class="mui-card-footer" style="background:#f7f7f7">
-      <span class="mui-card-link">0次购买</span>
-      <span class="mui-card-link">0次感谢</span>
-    </div>
-    <div class="article-content" style="background:#f7f7f7"></div>
-  </div>
-  <comments></comments>
-  <nav class="mui-bar mui-bar-tab" >
+  <comments v-if="info.id"></comments>
+  <nav class="mui-bar mui-bar-tab" v-if="info.id" >
     <a class="mui-tab-item">
       <p class="mui-tab-label" style="color:#323232;margin:0;">72小时未回复</p>
       <p class="mui-tab-label" style="color:#666666;margin:0;font-size:.65rem;">会原路退款</p>
@@ -32,6 +23,7 @@
       <span class="mui-tab-label btn-order" :data-price="info.price" v-else>支付{{info.price}}元</span>
     </a>
   </nav>
+  <shareall></shareall>
 </div>
 </template>
 
@@ -57,16 +49,62 @@
       }
     },
     mounted () {
-      this.getShopInfo()
+      if(cookie.getCookie('token')){
+        this.getShopInfo()
+      }
     },
     methods: {
       getShopInfo: function () {
         return this.$api.shopDetail(this.$route.query.pid).then(res => {
           this.info = res.data || ''
-          console.log(res.data.data)
           this.ganxie = res.data.data.ganxie
           this.buy = res.data.data.buy
           this.detailtitle = res.data.title
+
+          let url = window.location.href
+          let domain = url.split("/#/")[0]
+          let time = Math.round(new Date() / 1000)
+          let openid = cookie.getCookie('openid')
+          this.$api.jssdk({'url':url}).then(resource => {
+            wx.config({
+              debug: false,
+              appId: resource.data.result.appId,
+              timestamp: resource.data.result.timestamp,
+              nonceStr: resource.data.result.nonceStr,
+              signature: resource.data.result.signature,
+              jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+              ]
+            })
+            let shareInfo = {
+              img: domain +'/static/images/default.jpg',
+              link: domain +'/#/share?shareopenid='+openid+'&sharetime='+time+'&shareurl='+encodeURIComponent(url),
+              title: res.data.title,
+              desc: '感受文化、分享智慧'
+            }
+            this.wxShareReady(shareInfo);
+          })
+
+        })
+      },
+      wxShareReady: function (shareInfo){
+        wx.ready(() => {
+          wx.onMenuShareTimeline({
+            title: shareInfo.title,
+            link: shareInfo.link,
+            imgUrl: shareInfo.img,
+            desc: shareInfo.desc,
+          })
+          //分享到朋友圈
+          wx.onMenuShareAppMessage({
+            title: shareInfo.title,
+            link: shareInfo.link,
+            imgUrl: shareInfo.img,
+            desc: shareInfo.desc,
+          })
+
         })
       },
       toPay: function () {

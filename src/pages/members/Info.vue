@@ -44,6 +44,7 @@
       </div>
     </div>
     <!--修改弹出框-->
+    <sharenone></sharenone>
   </div>
 </template>
 

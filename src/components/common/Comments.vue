@@ -46,8 +46,10 @@ export default {
       comments: [],
     }
   },
-  mounted () {
-    this.getComments();
+  created () {
+    if(cookie.getCookie('token')) {
+      this.getComments();
+    }
   },
   methods: {
     isActive: function (name) {
@@ -94,8 +96,8 @@ export default {
     line-height: 50px;
     color: #666;
     font-size: 14px;
-    padding-left:10px;
-    color: #6db57b;
+    padding-left:15px;
+    color: rgb(69, 185, 124);
   }
   .avatar-footer{
     border-radius: 100%;

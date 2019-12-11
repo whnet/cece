@@ -126,6 +126,7 @@
       </div>
     </div>
     <!--删除确认框END-->
+    <sharenone></sharenone>
   </div>
 </template>
 

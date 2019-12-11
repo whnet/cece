@@ -75,15 +75,15 @@
         <div class="list ui-cell third">
           <a :href="xuyuan">
             <div class="mall-list-img"><i class="iconfont icon-shuyei"></i></div>
-            <div class="mall-name">菩提许愿</div>
+            <div class="mall-name">许愿树</div>
           </a>
           <a :href="kaiyun">
             <div class="mall-list-img"><i class="iconfont icon-shuyek"></i></div>
-            <div class="mall-name">开运好物</div>
+            <div class="mall-name">开运物</div>
           </a>
           <a :href="kecheng">
             <div class="mall-list-img"><i class="iconfont icon-shuyej"></i></div>
-            <div class="mall-name">菩提课程</div>
+            <div class="mall-name">菩提课堂</div>
           </a>
           <a :href="kefu">
             <div class="mall-list-img"><i class="iconfont icon-shuyed"></i></div>
@@ -91,6 +91,7 @@
           </a>
         </div>
       <common-footer></common-footer>
+      <shareall></shareall>
   </div>
 </template>
 
@@ -114,8 +115,8 @@ export default {
     }
   },
   created () {
-    // this.$api.tuikuan()
-    // this.$api.dakuan()
+    // this.$api.tuikuan() 自动退款
+    // this.$api.dakuan()  自动打款
     let token = cookie.getCookie('token')
     if (token === null) {
       sessionStorage.setItem("url", this.$route.path);

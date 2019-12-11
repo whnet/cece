@@ -18,23 +18,30 @@ export default {
   created () {
       this.common()
   },
-  mounted(){
-    this.common()
-  },
   methods: {
     common(){
-      let href = window.location.href;
+      let href = window.location.href
       if (href.includes("/?code")) {
         let code = href.split("/?code=")[1].split("&")[0]
         let sharetime = sessionStorage.getItem("sharetime")
         let shareurl = sessionStorage.getItem("shareurl")
         let shareopenid = sessionStorage.getItem("shareopenid")
-        this.getWechatInfo({
-          'code': code,
-          'shareopenid': shareopenid?shareopenid:'',
-          'sharetime': sharetime?sharetime:'',
-          'shareurl': shareurl?shareurl:'',
-        })
+        if(sharetime && shareopenid && shareurl){
+          this.getWechatInfo({
+            'code': code,
+            'shareopenid': shareopenid,
+            'sharetime': sharetime,
+            'shareurl': shareurl,
+          })
+        }else{
+          this.getWechatInfo({
+            'code': code,
+            'shareopenid': '',
+            'sharetime': '',
+            'shareurl': '',
+          })
+        }
+
       }
     },
     getWechatInfo: function (params) {
@@ -48,18 +55,16 @@ export default {
           cookie.setCookie('openid', res.data.result.openid, time)
           sessionStorage.setItem('avatar', res.data.result.avatar)
           that.$store.dispatch('setInfo')
-          if(sessionStorage.getItem("shareurl") != 'undefined' && sessionStorage.getItem("shareurl") != ''){
+          if(sessionStorage.getItem("shareurl") && sessionStorage.getItem("sharetime") && sessionStorage.getItem("shareopenid")){
             window.location.href = sessionStorage.getItem("shareurl")
           }else if(sessionStorage.getItem("url")){
             window.location.href = sessionStorage.getItem("url")
           }else{
-            window.location.href = 'http://vip.putishu.ren'
+            window.location.href = defaultUrl
           }
         }else{
-          window.location.href = 'http://vip.putishu.ren'
+          window.location.href = defaultUrl
         }
-      }).catch(err => {
-        return err
       })
     }
   }

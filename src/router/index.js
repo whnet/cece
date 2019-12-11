@@ -203,7 +203,7 @@ export default new Router({
       name: 'scrope',
       component: () => import('@/components/common/Scrope'),
       meta: {
-        title: '个人中心'
+        title: ''
       }
     },
     {

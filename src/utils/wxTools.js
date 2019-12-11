@@ -1,12 +1,10 @@
 //微信分享
 const wxShare = (obj, res, callback)=>{
-
         function getUrl(){
           var url = window.location.href;
           var locationurl = url.split('#')[0];
           return locationurl;
         }
-
         if(obj){
           var title = obj.title==undefined||obj.title==null?'深度':obj.title;
           var link = obj.link==undefined||obj.link==null?window.location.href:obj.link;
@@ -18,7 +16,6 @@ const wxShare = (obj, res, callback)=>{
         }
 
       //微信分享
-
         var JssdkConfig = [];
             JssdkConfig.appId = res.data.result.appId;
             JssdkConfig.timestamp = res.data.result.timestamp;
@@ -33,7 +30,6 @@ const wxShare = (obj, res, callback)=>{
               'uploadImage',
               'downloadImage',
             ]
-
         // 注入配置
         wx.config(JssdkConfig);
 

@@ -49,6 +49,7 @@
       </div>
       <div id="loadMoreorder" :style="{'display':taborder ? 'block':'none'}"></div>
     </div>
+    <sharenone></sharenone>
   </div>
 </template>
 
@@ -74,16 +75,18 @@
         cash:0,
       }
     },
-    mounted () {
-      let header = document.getElementById('header').offsetHeight
-      window.msgContent = document.documentElement.clientHeight
-      this.msgContent = (window.msgContent - header) + 'px'
-      if(cookie.getCookie('mid') == null){
-        this.getWechatAuth()
+    created () {
+      if(cookie.getCookie('token')) {
+        let header = document.getElementById('header').offsetHeight
+        window.msgContent = document.documentElement.clientHeight
+        this.msgContent = (window.msgContent - header) + 'px'
+        if (cookie.getCookie('mid') == null) {
+          this.getWechatAuth()
+        }
+        this.totals()
+        this.orders()
+        this.havewithdraw()
       }
-      this.totals()
-      this.orders()
-      this.havewithdraw()
     },
     methods: {
       tixian(){

@@ -89,11 +89,11 @@ import cookie from '../../static/js/cookie'
 export default {
   components: {
     Toast,
-    Comments
+    Comments,
   },
   data () {
     return {
-      detailtitle:'',
+      detailtitle:'菩提树',
       service_display: false,
       msg: '',
       belong: 0,
@@ -111,7 +111,9 @@ export default {
     }
   },
   created () {
-    this.getTeacherInfo()
+    if(cookie.getCookie('token')) {
+      this.getTeacherInfo()
+    }
   },
 
   methods: {
@@ -180,6 +182,54 @@ export default {
         this.info = res.data || ''
         this.getCategory(this.$route.query.tid)
         this.detailtitle =res.data.realname
+        // 单独写
+        if(res.data.realname){
+          let url = window.location.href
+          let domain = url.split("/#/")[0]
+          let time = Math.round(new Date() / 1000)
+          let openid = cookie.getCookie('openid')
+          this.$api.jssdk({'url':url}).then(resource => {
+            wx.config({
+              debug: false,
+              appId: resource.data.result.appId,
+              timestamp: resource.data.result.timestamp,
+              nonceStr: resource.data.result.nonceStr,
+              signature: resource.data.result.signature,
+              jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+              ]
+            })
+            let shareInfo = {
+              img: domain +'/static/images/default.jpg',
+              link: domain +'/#/share?shareopenid='+openid+'&sharetime='+time+'&shareurl='+encodeURIComponent(url),
+              title: res.data.realname+'的菩提树：有困惑？有烦恼？就上菩提树！',
+              desc: '你真的与众不同'
+            }
+            this.wxShareReady(shareInfo);
+          })
+        }
+        // 单独写 END
+
+      })
+    },
+    wxShareReady: function (shareInfo){
+      wx.ready(() => {
+        wx.onMenuShareTimeline({
+          title: shareInfo.title,
+          link: shareInfo.link,
+          imgUrl: shareInfo.img,
+          desc: shareInfo.desc,
+        })
+        //分享到朋友圈
+        wx.onMenuShareAppMessage({
+          title: shareInfo.title,
+          link: shareInfo.link,
+          imgUrl: shareInfo.img,
+          desc: shareInfo.desc,
+        })
+
       })
     },
     getCategory: function (tid) {

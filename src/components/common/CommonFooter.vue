@@ -34,14 +34,7 @@ export default {
     }
   },
   created () {
-    let token = cookie.getCookie('token')
-    this.getUserInfo()
-    if (token === null) {
-      sessionStorage.setItem("url", this.$route.path);
-      sessionStorage.setItem("shareopenid", this.$route.query.shareopenid);
-      sessionStorage.setItem("sharetime", this.$route.query.sharetime);
-      this.getWechatAuth()
-    }
+
   },
   computed: {
     ...mapGetters({
@@ -49,38 +42,11 @@ export default {
     })
   },
   methods: {
-    getUserInfo: function () {
-      let id = cookie.getCookie('mid')
-      if(id){
-        return this.$api.userInfo(id).then(res => {
-          this.userInfo = res.data
-          if(res.data.teacher.id){
-            cookie.setCookie('tid',res.data.teacher.id)
-          }else{
-            cookie.delCookie('tid')
-          }
-          sessionStorage.setItem('avatar', res.data.avatar)
-          this.nickname = res.data.nickname
-          sessionStorage.setItem('nickname', res.data.nickname)
-        }).catch(err => {
-          this.getWechatAuth()
-          return err
-        })
-      }
-    },
     isActive: function (name) {
       let urlname = this.$route.name ? this.$route.name : ''
       let patter = urlname.split('/')
       if (patter[0] === name) { return true }
       return false
-    },
-    getWechatAuth: function () {
-      return this.$api.wechatAuth().then(res => {
-        // 跳转后获得微信授权,是一个授权地址，reditect地址是固定的，直接跳转到/#/scrope中
-        window.location.href = res.data.url
-      }).catch(err => {
-        return err
-      })
     }
   }
 }

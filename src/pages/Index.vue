@@ -6,6 +6,7 @@
   <bang-dan></bang-dan>
   <Comments></Comments>
   <common-footer></common-footer>
+  <shareall></shareall>
 </div>
 </template>
 

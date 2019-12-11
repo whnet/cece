@@ -3,7 +3,8 @@
     <div class="msg-content" :style="{'height': msgHeight}" @scroll.passive="loadMore($event)">
       <div id="msg-rongyun-content" class="msg-rongyun-content">
         <p class="chat-history-date" v-if="more == 1 && msgContent.length > 5">没有更多消息</p>
-        <div class="chat-sender" v-if="order.mid == mid">
+        <div v-if="duifangInfo">
+        <div class="chat-sender" v-if="order.mid && mid && order.mid == mid">
           <div class="chat-avatar">
             <img :src="sendInfo.avatar">
           </div>
@@ -12,7 +13,7 @@
             <span>老师好，拍下了 {{ order.title }}~</span>
           </div>
         </div>
-        <div v-if="order.mid == duifangInfo.id">
+        <div v-if="order.mid && duifangInfo.id && order.mid == duifangInfo.id">
           <div class="chat-receiver">
             <div class="chat-avatar">
               <img :src="duifangInfo.avatar">
@@ -27,7 +28,6 @@
             <span class="judan" @click="jiedan(0)">拒单</span>
           </div>
         </div>
-
         <div class="chat-sender" v-if="item.senderUserId == userId" v-for="(item, key) in msgContent">
           <div class="chat-avatar">
             <img :src="sendInfo.avatar">
@@ -52,6 +52,7 @@
             <div class="chat-triangle"></div>
             <span>{{item.content}}</span>
           </div>
+        </div>
         </div>
 
       </div>
@@ -109,6 +110,7 @@
                    @on-click-menu-tousu="tousu()" @on-click-menu-ziliao="ziliao()">
       </actionsheet>
     </div>
+    <sharenone></sharenone>
   </div>
 </template>
 
@@ -164,6 +166,7 @@
         msgHeight: 0,
         ganxieStatus: 0,
         showMenus: false,
+        loadcontent: false,
         menus: {
           jieshu: '结束订单',
         },
@@ -179,19 +182,18 @@
       })
     },
     created () {
-      this.getOrderInfo()
+      if(cookie.getCookie('token')) {
+        this.$vux.loading.show({text: '正在连接服务'})
+        this.getOrderInfo()
+      }
     },
     mounted () {
       let footer = document.getElementById('footer').offsetHeight
       this.msgHeight = (document.documentElement.clientHeight - footer - 60) + 'px'
-      // this.getOrderInfo()
     },
     methods: {
       // 得到这个订单的具体信息，从而找到mid_id, tomid_idmyordertaking
       getOrderInfo: function () {
-        this.$nextTick(function () {
-          document.getElementById("msg-rongyun-content").scrollIntoView(false);
-        })
         return this.$api.orderdetail(this.$route.query.orderid).then(res => {
           let mid = cookie.getCookie('mid')
           this.status = res.data.status
@@ -402,9 +404,9 @@
         let targetId = sessionStorage.getItem("targetId")
         let timestrap = null;
         let count = 20;
-        this.$vux.loading.show({text: '正在连接服务'})
         RongIMLib.RongIMClient.getInstance().getHistoryMessages(conversationType, targetId, timestrap, count, {
           onSuccess: function(list, hasMsg) {
+            that.loadcontent = true
             if(list && list.length > 0){
               let history = that.msgContent
               let arrlist = that.changeMessage(list)
@@ -432,11 +434,7 @@
           if(type == 1){
             this.duifangInfo = res.data
             // 聊天对方的信息，格式为 orderid + openid
-            if(res.data.teacher.name){
-              this.detailtitle = res.data.teacher.name
-            }else{
-              this.detailtitle = res.data.nickname
-            }
+            this.detailtitle = res.data.nickname
           }else if(type == 2){
             this.sendInfo = {'openid': res.data.openid, 'avatar': res.data.avatar}
           }
@@ -526,7 +524,7 @@
         this.clearRemoteHistoryMessages()
       },
       tousu () {
-        this.$vux.toast.text('投诉成功')
+        this.$vux.toast.text('请联系客服')
       },
       jieshu () {
         let data = {
@@ -536,6 +534,7 @@
           this.$vux.toast.text('订单结束')
           this.status = 4
           this.$api.notifyWechat({openid:this.duifangInfo.openid,url:window.location.href,type:'end',title:this.order.title})
+          window.location.href = '/#/myordertaking'
         })
       },
       emoji: function () {
@@ -554,14 +553,17 @@
         if(id == 1){
           let data = {'status': 3,}
           return this.$api.order(data,this.$route.query.orderid).then(res => {
-            this.$vux.toast.text('接单')
+            this.$vux.toast.text('已接单')
             this.status = 3
             this.$api.notifyWechat({openid:this.duifangInfo.openid,url:window.location.href,type:'start',title:this.order.title})
           })
         }else{
           let data = {'status': 6,}
           return this.$api.order(data,this.$route.query.orderid).then(res => {
-            this.$vux.toast.text('拒单')
+            this.$vux.toast.text('已拒单')
+            this.$api.notifyWechat({openid:this.duifangInfo.openid,url:window.location.href,type:'拒单',title:this.order.title})
+            // 返回到 接单页面
+            window.location.href = '/#/myordertaking'
           })
         }
       },

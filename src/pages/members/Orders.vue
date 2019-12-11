@@ -54,6 +54,7 @@
       <div id="loadMore"></div>
     </div>
     <common-footer></common-footer>
+    <sharenone></sharenone>
   </div>
 </template>
 <script>

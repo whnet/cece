@@ -8,6 +8,7 @@
 
 <script>
 import { Swiper, SwiperItem } from 'vux'
+import cookie from '../../static/js/cookie'
 export default {
   components: {
     Swiper,
@@ -18,8 +19,10 @@ export default {
       swiper: []
     }
   },
-  mounted () {
-    this.getSwiper({'type': 1})
+  created () {
+    if(cookie.getCookie('token')) {
+      this.getSwiper({'type': 1})
+    }
   },
   methods: {
     getSwiper (params) {

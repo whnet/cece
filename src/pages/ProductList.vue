@@ -47,11 +47,13 @@
       <div id="loadMore"></div>
     </ul>
   <common-footer></common-footer>
+  <shareall></shareall>
 </div>
 </template>
 
 <script>
 import { Tab, TabItem, Search, Scroller, XHeader, Divider } from 'vux'
+import cookie from '../../static/js/cookie'
 export default {
   components: {
     Search,
@@ -86,8 +88,10 @@ export default {
         this.msgContentHeight = (window.msgContentHeight - footer - 60) + 'px'
       })()
     }
-    // 获得闪测信息
-    this.getShance();
+    //
+    if(cookie.getCookie('token')) {
+      this.getShance();
+    }
   },
   created () {
     // 获得闪测信息
@@ -132,7 +136,6 @@ export default {
             let lis = [];
             that.$api.shop({'type': this.note, 'page': page}).then(res => {
               that.list = that.list.concat(res.data.results)
-              console.log(res.data.results);
               next('', page < Math.ceil(res.data.count / 10 ));
             })
 

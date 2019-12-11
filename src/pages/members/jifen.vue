@@ -45,6 +45,7 @@
               </div>
               <div id="loadMorewithdraw" :style="{'display':tabwithdraw ? 'block':'none'}"></div>
             </div>
+    <sharenone></sharenone>
   </div>
 </template>
 

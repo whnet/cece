@@ -43,11 +43,11 @@
             <div class="order-list" v-for="(item , key) in orderdata">
               <div class="list thismon">
                 <div class="ui-cell item">
-                  <div class="item-info">{{ item.buy_name }}</div>
+                  <div class="item-info">{{ substring(item.buy_name) }}</div>
                   <div class="item-info">{{ substring(item.teacher_name) }}-{{ substring(item.title) }}</div>
                   <div class="item-info">{{ item.price }}元</div>
-                  <div class="item-info">{{ item.created }}</div>
-                  <div class="item-info">{{ item.created }}</div>
+                  <div class="item-info created">{{ item.created }}</div>
+                  <div class="item-info created">{{ item.created }}</div>
                 </div>
               </div>
             </div>
@@ -56,6 +56,7 @@
         </div>
       </div>
     </div>
+    <sharenone></sharenone>
   </div>
 </template>
 
@@ -124,6 +125,9 @@
   .avatar{
     height: 30px;
     width: 30px;
+  }
+  .created{
+    font-size: 12px;
   }
   .list-avatar{
     width:45px;

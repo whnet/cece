@@ -60,6 +60,7 @@
         </div>
       </div>
     </div>
+    <sharenone></sharenone>
   </div>
 </template>
 
@@ -78,7 +79,9 @@ export default {
     })
   },
   created () {
-    this.getUserInfo()
+    if(cookie.getCookie('token')) {
+      this.getUserInfo()
+    }
   },
   data () {
     return {
